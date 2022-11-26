@@ -1,0 +1,16 @@
+on:
+  push:
+    branches:
+      - master      
+jobs:
+  build:
+    runs-on: ubuntu-latest 
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: " login to dockerhub"
+        run: docker login --username ${{ secrets.EMAN_SECRET }} --password ${{ secrets.PASS_SECRET }}
+      - name: " building docker "
+        run: docker build -t ${{secrets.EMAN_SECRET}}/javat:dev .
+      - name: " pushing to docker hub "
+        run: docker push ${{secrets.EMAN_SECRET}}/javat:dev
